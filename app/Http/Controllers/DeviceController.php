@@ -21,7 +21,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices = DB::table('devices')->where('status', 0)->paginate(20);
+        $devices = DB::table('devices')->where('status', 0)->orderBy('id','DESC')->paginate(20);
         //$brands = DB::table('brands')->where('id',1)->get();
         return view('devices.index', compact(['devices']));
     }
@@ -59,10 +59,13 @@ class DeviceController extends Controller
                 'delivered_person' => $request->delivered_person,
                 'serial_number' => $request->serial_number,
                 'barcode' => $request->customer_id . time() . rand(0, 9999),
+                'guarantee' => $request->guarantee,
+                'guarantee_start' => $request->guarantee_start,
+                'guarantee_finish' => $request->guarantee_finish,
                 'status' => 0,
             ]);
 
-            return Redirect::back()->with('success', 'Yeni Servis Formu Başarıyla Oluşturuldu. Barkod yazdırmak için yazdır butonuna tıklayınız.');
+            return Redirect::back()->with('success', 'Yeni Servis Formu Başarıyla Oluşturuldu. Barkod ve form yazdırmak için listeden yazdır butonuna tıklayınız.');
 
         } catch (Exception $e) {
             dd($e->getMessage());
@@ -91,24 +94,29 @@ class DeviceController extends Controller
 
             $id = $request->id;
             $barcode = Device::whereId($id)->get()->first();
-            /*header('Content-type: image/png');
-            $bar = App::make('BarCode');
-            $barcontent = $bar->barcodeFactory("BarCode")
-                ->renderBarcode(
-                    $filepath = '',
-                    $text = $barcode->barcode,
-                    $size = '60',
-                    $orientation = "horizontal",
-                    $code_type = "codabar",// code_type : code128,code39,code128b,code128a,code25,codabar
-                    $print = true,
-                    $sizefactor = 1
-                );*/
             return response()->json($barcode);
         } catch (Exception $e) {
             dd($e);
         }
 
     }
+
+    public function showForm(Request $request)
+    {
+        try {
+            $id = $request->id;
+            $data = array();
+            $data['form'] = Device::whereId($id)->get()->first();
+            $data['customer'] = Customer::whereId($data['form']['customer_id'])->get()->first();
+            $data['brand'] = Brand::whereId($data['form']['brand_id'])->get()->first();
+            $data['model'] = Modelling::whereId($data['form']['model_id'])->get()->first();
+            return response()->json($data);
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+    }
+
 
 
     /**

@@ -8,10 +8,16 @@
 @section('style')
     <style>
         @media print {
-            table td:last-child {display:none}
-            table th:last-child {display:none}
+            table td:last-child {
+                display: none
+            }
+
+            table th:last-child {
+                display: none
+            }
         }
-        .select2-selection,.select2-results{
+
+        .select2-selection, .select2-results {
             font-weight: bold !important;
         }
     </style>
@@ -29,7 +35,7 @@
                 <!-- /.box-header -->
                 <div class="box-body pad">
 
-                    <table class="table table-bordered table-hover" id="myTable">
+                    <table class="table table-bordered table-hover" id="">
                         <thead>
                         <tr>
                             <th>#ID</th>
@@ -40,26 +46,27 @@
                         </thead>
                         <tbody id="post-list" name="post-list">
 
-                        <?php $i = 0 ?>
-                        @foreach ($modellings as $key => $modelling)
 
-                            <tr id="post{{$key}}" class="">
-                                <td>{{ $modelling->id }}</td>
-                                <td>{{ $modelling->brand_id}}</td>
-                                <td>{{ $modelling->model_name }}</td>
-                                <td style="width:15%">
-                                    <a href="{{ route('brands.edit', $modelling->id) }}" class="btn btn-primary bold uppercase"><i class="fa fa-edit"></i> Düzenle</a>
-                                    <button type="button" class="btn btn-danger bold uppercase delete_button"
-                                            data-toggle="modal" data-target="#DeleteModal"
-                                            onclick="deleteData({{$modelling->id}})">
-                                        <i class='fa fa-trash'></i> SİL
-                                    </button>
-                                </td>
-                            </tr>
-                            <?php $i++ ?>
+                        @foreach ($modellings as $key => $model)
+                                <tr id="post" class="">
+                                    <td>{{ $model->id }}</td>
+                                    <td>{{ $model->brand_name}}</td>
+                                    <td>{{ $model->model_name }}</td>
+                                    <td style="width:15%">
+                                        <a href="{{ route('brands.edit', $model->id) }}"
+                                           class="btn btn-primary bold uppercase"><i class="fa fa-edit"></i> Düzenle</a>
+                                        <button type="button" class="btn btn-danger bold uppercase delete_button"
+                                                data-toggle="modal" data-target="#DeleteModal"
+                                                onclick="deleteData({{$model->id}})">
+                                            <i class='fa fa-trash'></i> SİL
+                                        </button>
+                                    </td>
+                                </tr>
+
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $modellings->links() }}
                 </div>
             </div>
         </div>
@@ -81,7 +88,9 @@
                     <div class="modal-footer">
                         <div class="text-center">
                             <button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
-                            <button type="submit" name="" class="btn btn-danger" data-dismiss="modal" onclick="formSubmit()">Evet, Silebilirsin</button>
+                            <button type="submit" name="" class="btn btn-danger" data-dismiss="modal"
+                                    onclick="formSubmit()">Evet, Silebilirsin
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -95,24 +104,23 @@
     <script>
         $(function () {
             $('#myTable').DataTable({
-                'paging'      : true,
+                'paging': true,
                 'lengthChange': true,
-                'searching'   : true,
-                'ordering'    : false,
-                'info'        : true
+                'searching': true,
+                'ordering': false,
+                'info': true
             });
         });
     </script>
     <script type="text/javascript">
-        function deleteData(id)
-        {
+        function deleteData(id) {
             var id = id;
             var url = '{{ route("modellings.destroy", ":id") }}';
             url = url.replace(':id', id);
             $("#deleteForm").attr('action', url);
         }
-        function formSubmit()
-        {
+
+        function formSubmit() {
             $("#deleteForm").submit();
         }
     </script>

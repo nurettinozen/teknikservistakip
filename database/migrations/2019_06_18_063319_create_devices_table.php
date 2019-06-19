@@ -25,6 +25,9 @@ class CreateDevicesTable extends Migration
             $table->string('delivery_person',255);
             $table->text('serial_number');
             $table->text('barcode');
+            $table->integer('guarantee');
+            $table->string('guarantee_start' , 255);
+            $table->string('guarantee_finish' , 255);
             $table->integer('status');
             $table->timestamps();
         });

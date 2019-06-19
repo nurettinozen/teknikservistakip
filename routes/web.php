@@ -35,4 +35,5 @@ Route::get('getModels', 'ComponentController@getModels');
 // Device Routers
 Route::resource('devices', 'DeviceController');
 Route::get('showBarcode', 'DeviceController@showBarcode');
+Route::get('showForm', 'DeviceController@showForm');
 

@@ -156,6 +156,23 @@ return [
 //        ],
 //
 //
+        'Servis İşlemleri',
+
+        [
+            'text'    => 'Servis İşlemleri',
+            'icon'    => 'tv',
+            'submenu' => [
+                [
+                    'text' => 'Yeni Servis Formu',
+                    'url'  => 'devices/create',
+                ],
+                [
+                    'text' => 'Servis Formu Listesi',
+                    'url'  => 'devices',
+                ],
+            ],
+        ],
+
         'Cihaz İşlemleri',
 
         [
@@ -192,22 +209,7 @@ return [
             ],
         ],
 
-        'Servis İşlemleri',
 
-        [
-            'text'    => 'Servis İşlemleri',
-            'icon'    => 'tv',
-            'submenu' => [
-                [
-                    'text' => 'Yeni Servis Formu',
-                    'url'  => 'devices/create',
-                ],
-                [
-                    'text' => 'Servis Formu Listesi',
-                    'url'  => 'devices',
-                ],
-            ],
-        ],
 
 
 

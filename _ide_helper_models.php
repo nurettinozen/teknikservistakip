@@ -136,10 +136,13 @@ namespace App{
  * @property string $pre_detection
  * @property string $customer_request
  * @property string $repair_description
- * @property string $delivered_person
+ * @property string|null $delivered_person
  * @property string|null $delivery_person
  * @property string $serial_number
  * @property string $barcode
+ * @property int $guarantee
+ * @property string|null $guarantee_start
+ * @property string|null $guarantee_finish
  * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -153,6 +156,9 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereCustomerRequest($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereDeliveredPerson($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereDeliveryPerson($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereGuarantee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereGuaranteeFinish($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereGuaranteeStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device whereModelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Device wherePreDetection($value)

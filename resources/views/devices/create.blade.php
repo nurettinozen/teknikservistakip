@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
+
 {{ $barcode = Session::get('barcode') }}
 @if($barcode){
 <script>
@@ -15,8 +16,7 @@
 </script>
 @endif
 
-
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
 @section('content')
     <div class="box box-danger box-solid">
         <div class="box-header with-border">
@@ -85,6 +85,23 @@
                     <div class="panel-body">
 
 
+
+
+
+                        <div class="form-group">
+                            <label for="category">Marka Seçiniz</label>
+                            {!! Form::select('brand_id', $brands->pluck('brand_name', 'id'), old('brand_id'), ['class' => 'form-control select2', 'id' => 'brand_id']) !!}
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="model_id">Model Seçiniz</label>
+                            <select id="model_id" name="model_id" class="form-control select2">
+
+                            </select>
+                            {{ csrf_field() }}
+                        </div>
+
                         <div class="form-group">
                             <label for="guarantee">Garanti Durumu</label>
                             <select id="guarantee" name="guarantee" class="form-control select2">
@@ -111,21 +128,6 @@
                                 </div>
                                 <input type="text" class="form-control pull-right" id="datepicker" data-provide="datepicker">
                             </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="category">Marka Seçiniz</label>
-                            {!! Form::select('brand_id', $brands->pluck('brand_name', 'id'), old('brand_id'), ['class' => 'form-control select2', 'id' => 'brand_id']) !!}
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="model_id">Model Seçiniz</label>
-                            <select id="model_id" name="model_id" class="form-control select2">
-
-                            </select>
-                            {{ csrf_field() }}
                         </div>
 
                         <button class="btn btn-danger nextBtn pull-right" type="button"><i class="fa fa-angle-double-right"></i> Sonraki</button>
@@ -199,7 +201,7 @@
     <script src="{{ asset('assets/admin/js/bootstrap-toggle.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/bootstrap-fileinput.js') }}"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/12.1.0/classic/ckeditor.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script>
         var allEditors = document.querySelectorAll('.editor');
         for (var i = 0; i < allEditors.length; ++i) {
