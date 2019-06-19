@@ -35,7 +35,8 @@ class DeviceController extends Controller
     {
 
         $customers = Customer::all();
-
+        $brands = Brand::all();
+        $modellings = Modelling::all();
         return view('devices.create', compact(['brands', 'modellings', 'customers']));
     }
 
@@ -72,22 +73,41 @@ class DeviceController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function show($id)
     {
-        //            $bar = App::make('BarCode');
-//            $barcontent = $bar->barcodeFactory("BarCode")
-//                ->renderBarcode(
-//                    $filepath = '',
-//                    $text = $request->customer_id . time() . rand(0, 9999),
-//                    $size = '50',
-//                    $orientation = "horizontal",
-//                    $code_type = "codabar",// code_type : code128,code39,code128b,code128a,code25,codabar
-//                    $print = true,
-//                    $sizefactor = 1
-//                );
+
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function showBarcode(Request $request)
+    {
+        try {
+
+            $id = $request->id;
+            $barcode = Device::whereId($id)->get()->first();
+            /*header('Content-type: image/png');
+            $bar = App::make('BarCode');
+            $barcontent = $bar->barcodeFactory("BarCode")
+                ->renderBarcode(
+                    $filepath = '',
+                    $text = $barcode->barcode,
+                    $size = '60',
+                    $orientation = "horizontal",
+                    $code_type = "codabar",// code_type : code128,code39,code128b,code128a,code25,codabar
+                    $print = true,
+                    $sizefactor = 1
+                );*/
+            return response()->json($barcode);
+        } catch (Exception $e) {
+            dd($e);
+        }
+
     }
 
 

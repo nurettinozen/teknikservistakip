@@ -84,6 +84,36 @@
                     </div>
                     <div class="panel-body">
 
+
+                        <div class="form-group">
+                            <label for="guarantee">Garanti Durumu</label>
+                            <select id="guarantee" name="guarantee" class="form-control select2">
+                                <option value="1">Garantisi Var</option>
+                                <option value="0">Garantisi Yok (Ücretli Onarım)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guarantee_start">Garanti Başlangıç Tarihi</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="datepicker" data-provide="datepicker">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="guarantee_finish">Garanti Bitiş Tarihi</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="datepicker" data-provide="datepicker">
+                            </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label for="category">Marka Seçiniz</label>
                             {!! Form::select('brand_id', $brands->pluck('brand_name', 'id'), old('brand_id'), ['class' => 'form-control select2', 'id' => 'brand_id']) !!}
@@ -181,6 +211,10 @@
     <script>
         $(function () {
             $('.select2').select2();
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: '-3d'
+            });
         });
     </script>
     <script>
@@ -202,6 +236,8 @@
                 'ordering': false,
                 'info': true
             });
+
+            $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
         });
     </script>
     <script>

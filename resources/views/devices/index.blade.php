@@ -8,10 +8,16 @@
 @section('style')
     <style>
         @media print {
-            table td:last-child {display:none}
-            table th:last-child {display:none}
+            table td:last-child {
+                display: none
+            }
+
+            table th:last-child {
+                display: none
+            }
         }
-        .select2-selection,.select2-results{
+
+        .select2-selection, .select2-results {
             font-weight: bold !important;
         }
     </style>
@@ -53,13 +59,23 @@
 
                                 </td>
                                 <td style="width:20%">
-                                    <a href="{{ route('devices.edit', $device->id) }}" class="btn btn-primary bold uppercase"><i class="fa fa-edit"></i> Düzenle</a>
+                                    <a href="{{ route('devices.edit', $device->id) }}"
+                                       class="btn btn-primary bold uppercase"><i class="fa fa-edit"></i> Düzenle</a>
                                     <button type="button" class="btn btn-danger bold uppercase delete_button"
                                             data-toggle="modal" data-target="#DeleteModal"
                                             onclick="deleteData({{$device->id}})">
                                         <i class='fa fa-trash'></i> SİL
                                     </button>
-                                    <a class="btn btn-success bold uppercase" href="{{ route('devices.show',$device->id) }}"><i class="fa fa-print"></i> Barkod Yazdır</a>
+                                    <button type="button" class="btn btn-danger bold uppercase delete_button"
+                                            data-toggle="modal" data-target="#BarcodeModal"
+                                            onclick="showBarcode({{$device->id}})">
+                                        <i class='fa fa-print'></i> Barkod Yazdır
+                                    </button>
+                                    <button type="button" class="btn btn-danger bold uppercase delete_button"
+                                            data-toggle="modal" data-target="#FormModal"
+                                            onclick="showForm({{$device->id}})">
+                                        <i class='fa fa-print'></i> Form Yazdır
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -87,7 +103,69 @@
                     <div class="modal-footer">
                         <div class="text-center">
                             <button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
-                            <button type="submit" name="" class="btn btn-danger" data-dismiss="modal" onclick="formSubmit()">Evet, Silebilirsin</button>
+                            <button type="submit" name="" class="btn btn-danger" data-dismiss="modal"
+                                    onclick="formSubmit()">Evet, Silebilirsin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="BarcodeModal" class="modal fade text-danger" role="dialog">
+        <div class="modal-dialog ">
+            <!-- Modal content-->
+            <form action="" id="ShowBarcode" method="post">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center">Barkod Alanı</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ csrf_field() }}
+                        {{ method_field('GET') }}
+                        <p class="text-center">
+                        <div id="barcode" class="text-center">
+                            test
+                        </div>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <button type="submit" name="" class="btn btn-danger" data-dismiss="modal"
+                                    onclick="BarcodePrint()"><i class="fa fa-print"></i> Barkodu Yazdır
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="FormModal" class="modal fade text-danger" role="dialog">
+        <div class="modal-dialog ">
+            <!-- Modal content-->
+            <form action="" id="ShowBarcode" method="post">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center">Form Detayları Alanı</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ csrf_field() }}
+                        {{ method_field('GET') }}
+                        <p class="text-center">
+                        <div id="barcode" class="text-center">
+                            test
+                        </div>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <button type="submit" name="" class="btn btn-danger" data-dismiss="modal"
+                                    onclick="FormPrint()"><i class="fa fa-print"></i> Formu Yazdır
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -101,25 +179,42 @@
     <script>
         $(function () {
             $('#myTable').DataTable({
-                'paging'      : true,
+                'paging': true,
                 'lengthChange': true,
-                'searching'   : true,
-                'ordering'    : false,
-                'info'        : true
+                'searching': true,
+                'ordering': false,
+                'info': true
             });
         });
     </script>
     <script type="text/javascript">
-        function deleteData(id)
-        {
+        function deleteData(id) {
             var id = id;
             var url = '{{ route("devices.destroy", ":id") }}';
             url = url.replace(':id', id);
             $("#deleteForm").attr('action', url);
         }
-        function formSubmit()
-        {
+
+        function formSubmit() {
             $("#deleteForm").submit();
+        }
+
+        function showBarcode(id) {
+            var id = id;
+            if (id) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{url('showBarcode')}}?id=" + id,
+                    success: function (res) {
+                        if (res) {
+                            $("#barcode").empty();
+                            $("#barcode").html('<img src="http://barcodes4.me/barcode/c128b/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
+                        } else {
+                            $("#barcode").empty();
+                        }
+                    }
+                });
+            }
         }
     </script>
     @include('particle.alert')
