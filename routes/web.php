@@ -36,4 +36,8 @@ Route::get('getModels', 'ComponentController@getModels');
 Route::resource('devices', 'DeviceController');
 Route::get('showBarcode', 'DeviceController@showBarcode');
 Route::get('showForm', 'DeviceController@showForm');
+Route::patch('startService/{barcode}','DeviceController@start')->name('service.start');
+
+// Service Routers
+Route::resource('services', 'ServiceController');
 

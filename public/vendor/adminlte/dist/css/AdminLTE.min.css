@@ -5296,7 +5296,7 @@ table.text-center, table.text-center td, table.text-center th {
 }
 @media (min-width: 768px){
     .modal-dialog {
-        width: 800px!important;
+        width: 900px!important;
         margin: 30px auto;
         min-height: 80vh!important;
     }

@@ -12,9 +12,9 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>123</h3>
+                    <h3>{{ $service }}</h3>
 
-                    <p>Servisteki Cihazlar</p>
+                    <p>Tamirdeki Cihazlar</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-mobile"></i>
@@ -63,7 +63,7 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>123<sup style="font-size: 20px">₺</sup></h3>
+                    <h3>{{ $service_sum }}<sup style="font-size: 25px"> ₺</sup></h3>
 
                     <p>Toplam Alacak</p>
                 </div>

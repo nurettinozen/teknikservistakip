@@ -19,9 +19,9 @@ class CreateServicesTable extends Migration
             $table->integer('brand_id');
             $table->integer('model_id');
             $table->integer('customer_id');
-            $table->longText('repair_items');
+            $table->longText('repair_items')->nullable();
             $table->text('barcode');
-            $table->bigInteger('order_total');
+            $table->bigInteger('order_total')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

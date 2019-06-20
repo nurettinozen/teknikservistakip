@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -13,7 +14,15 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = DB::table('services')
+            ->join('devices','services.device_id','=','devices.id')
+            ->join('customers','services.customer_id','=','customers.id')
+            ->join('brands','services.brand_id','=','brands.id')
+            ->join('modellings','services.model_id','=','modellings.id')
+            ->orderBy('services.id','DESC')
+            ->paginate(20);
+
+        return view('services.index', compact(['services']));
     }
 
     /**
@@ -81,4 +90,5 @@ class ServiceController extends Controller
     {
         //
     }
+
 }

@@ -12,6 +12,39 @@
 
 namespace App{
 /**
+ * App\Service
+ *
+ * @property int $id
+ * @property int $device_id
+ * @property int $brand_id
+ * @property int $model_id
+ * @property int $customer_id
+ * @property string $repair_items
+ * @property string $barcode
+ * @property int $order_total
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereBarcode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereBrandId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereCustomerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereDeviceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereModelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereOrderTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereRepairItems($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereUpdatedAt($value)
+ */
+	class Service extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Modelling
  *
  * @property int $id
@@ -19,6 +52,7 @@ namespace App{
  * @property int $brand_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Brand $brands
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modelling newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modelling newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modelling query()

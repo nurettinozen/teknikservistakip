@@ -6,6 +6,7 @@ use App\Brand;
 use App\Customer;
 use App\Device;
 use App\Modelling;
+use App\Service;
 use peal\barcodegenerator\BarCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -21,8 +22,17 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices = DB::table('devices')->where('status', 0)->orderBy('id','DESC')->paginate(20);
-        //$brands = DB::table('brands')->where('id',1)->get();
+        //$devices = DB::table('devices')->where('status', 0)->orderBy('id','DESC')->paginate(20);
+
+        $devices = DB::table('devices')
+            ->join('customers','devices.customer_id','=','customers.id')
+            ->join('brands','devices.brand_id','=','brands.id')
+            ->join('modellings','devices.model_id','=','modellings.id')
+            ->where('status', '=',0)
+            ->orderBy('devices.id','DESC')
+            ->paginate(20);
+
+
         return view('devices.index', compact(['devices']));
     }
 
@@ -91,9 +101,8 @@ class DeviceController extends Controller
     public function showBarcode(Request $request)
     {
         try {
-
             $id = $request->id;
-            $barcode = Device::whereId($id)->get()->first();
+            $barcode = Device::where('barcode',$id)->get()->first();
             return response()->json($barcode);
         } catch (Exception $e) {
             dd($e);
@@ -106,7 +115,7 @@ class DeviceController extends Controller
         try {
             $id = $request->id;
             $data = array();
-            $data['form'] = Device::whereId($id)->get()->first();
+            $data['form'] = Device::where('barcode',$id)->get()->first();
             $data['customer'] = Customer::whereId($data['form']['customer_id'])->get()->first();
             $data['brand'] = Brand::whereId($data['form']['brand_id'])->get()->first();
             $data['model'] = Modelling::whereId($data['form']['model_id'])->get()->first();
@@ -115,6 +124,37 @@ class DeviceController extends Controller
             dd($e);
         }
 
+    }
+
+
+
+    /**
+     * Update the status.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function start(Request $request)
+    {
+        try{
+            $device = Device::where('barcode', $request->barcode)->first();
+
+            Service::create([
+                'device_id' => $device->id,
+                'brand_id' => $device->brand_id,
+                'model_id' => $device->model_id,
+                'customer_id' => $device->customer_id,
+                'barcode' => $device->barcode,
+                'status' => 1,
+            ]);
+
+            Device::where('barcode', $request->barcode)->update(['status' => 1]);
+            return Redirect::back()->with('success', 'Başarılı bir şekilde servis işlemi başlatıldı ve kabul edilen cihazlar listesinden düşüldü.');
+
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return Redirect::back()->withErrors(['error' => ['Hay aksi! İşlem sırasında bir hata ile karşılaşıldı.']]);
+        }
     }
 
 

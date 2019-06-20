@@ -18,11 +18,10 @@ class ModellingController extends Controller
      */
     public function index()
     {
-        $modellings = Modelling::with('brands')->orderBy('id')->paginate(10);
-        $brands = Brand::all();
-
-        //dd($data);
-        return view('modellings.index', compact(['modellings','brands']));
+        $modellings = DB::table('modellings')
+            ->leftJoin('brands','modellings.brand_id','=','brands.id')
+            ->paginate(20);
+        return view('modellings.index', compact(['modellings']));
     }
 
     /**

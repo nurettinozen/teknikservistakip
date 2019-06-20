@@ -179,11 +179,11 @@ return [
             'submenu' => [
                 [
                     'text' => 'Servis Durumundaki Cihazlar',
-                    'url'  => 'devices',
+                    'url'  => 'services',
                 ],
                 [
                     'text' => 'Tamamlanmış Cihazlar',
-                    'url'  => 'devices',
+                    'url'  => 'services/finish',
                 ],
             ],
         ],

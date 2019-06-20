@@ -1324,7 +1324,6 @@
     <column id="312" parent="242" name="repair_items">
       <Position>6</Position>
       <DataType>longtext|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="313" parent="242" name="barcode">
@@ -1336,7 +1335,6 @@
     <column id="314" parent="242" name="order_total">
       <Position>8</Position>
       <DataType>bigint(20)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="315" parent="242" name="status">

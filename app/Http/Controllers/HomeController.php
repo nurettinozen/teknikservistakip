@@ -30,6 +30,6 @@ class HomeController extends Controller
         $customer = DB::table('customers')->count();
         $service_sum = DB::table('services')->sum('order_total');
 
-        return view('home', compact(['device','customer']));
+        return view('home', compact(['device','customer','service','service_sum']));
     }
 }

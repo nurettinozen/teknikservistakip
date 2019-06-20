@@ -55,8 +55,8 @@
 
                             <tr id="post{{$key}}" class="">
                                 <td>{{ $component->id }}</td>
-                                <td>{{ $component->brand_id}}</td>
-                                <td>{{ $component->model_id }}</td>
+                                <td>{{ $component->brand_name}}</td>
+                                <td>{{ $component->model_name }}</td>
                                 <td>{{ $component->component_name}}</td>
                                 <td>{{ $component->stock}}</td>
                                 <td>{{ $component->get_price}}</td>

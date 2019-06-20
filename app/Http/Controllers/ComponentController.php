@@ -22,10 +22,12 @@ class ComponentController extends Controller
      */
     public function index()
     {
-        $components = Component::all();
-        $brands = Brand::all();
-        $modellings = Modelling::all();
-        return view('components.index', compact(['components', 'brands', 'modellings']));
+        $components = DB::table('components')
+            ->join('brands','components.brand_id','=', 'brands.id')
+            ->join('modellings','components.model_id','=','modellings.id')
+            ->paginate(20);
+
+        return view('components.index', compact(['components']));
     }
 
     /**
