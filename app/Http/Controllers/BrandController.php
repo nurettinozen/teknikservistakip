@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Brand;
+use App\Modelling;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class BrandController extends Controller
@@ -108,8 +110,10 @@ class BrandController extends Controller
     {
         try {
             $brand = Brand::findOrFail($id);
+            $modelling = DB::table('modellings')->where('brand_id',$id);
+            $modelling->delete();
             $brand->delete();
-            return Redirect::back()->with('success', 'Marka sistemden başarıyla silindi, artık bu verileri geri alamayacaksınız.');
+            return Redirect::back()->with('success', 'Marka ve ona ait modeller sistemden başarıyla silindi, artık bu verileri geri alamayacaksınız.');
         } catch (Exception $e) {
             dd($e->getMessage());
             return Redirect::back()->withErrors(['errors' => ['Marka silinirken bir hata ile karşılaşıldı.']]);
