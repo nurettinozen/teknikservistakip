@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $service = DB::table('services')->count();;
+        $device = DB::table('devices')->where('status', 0)->count();
+        $customer = DB::table('customers')->count();
+        $service_sum = DB::table('services')->sum('order_total');
+
+        return view('home', compact(['device','customer']));
     }
 }

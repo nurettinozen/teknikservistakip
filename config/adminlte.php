@@ -156,11 +156,11 @@ return [
 //        ],
 //
 //
-        'Servis İşlemleri',
+        'Teknik Servis İşlemleri',
 
         [
-            'text'    => 'Servis İşlemleri',
-            'icon'    => 'tv',
+            'text'    => 'Cihaz Kabul Servisi',
+            'icon'    => 'mobile-phone',
             'submenu' => [
                 [
                     'text' => 'Yeni Servis Formu',
@@ -168,6 +168,21 @@ return [
                 ],
                 [
                     'text' => 'Servis Formu Listesi',
+                    'url'  => 'devices',
+                ],
+            ],
+        ],
+
+        [
+            'text'    => 'Servis İşlemleri',
+            'icon'    => 'flag-o',
+            'submenu' => [
+                [
+                    'text' => 'Servis Durumundaki Cihazlar',
+                    'url'  => 'devices',
+                ],
+                [
+                    'text' => 'Tamamlanmış Cihazlar',
                     'url'  => 'devices',
                 ],
             ],

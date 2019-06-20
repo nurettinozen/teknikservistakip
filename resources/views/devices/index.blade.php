@@ -87,19 +87,19 @@
                                             onclick="deleteData({{$device->id}})">
                                         <i class='fa fa-trash'></i> SİL
                                     </button>
-                                    <button type="button" class="btn btn-danger bold uppercase delete_button"
+                                    <button type="button" class="btn btn-info bold uppercase delete_button"
                                             data-toggle="modal" data-target="#BarcodeModal"
                                             onclick="showBarcode({{$device->id}})">
                                         <i class='fa fa-print'></i> Barkod Yazdır
                                     </button>
-                                    <button type="button" class="btn btn-danger bold uppercase delete_button"
+                                    <button type="button" class="btn btn-warning bold uppercase delete_button"
                                             data-toggle="modal" data-target="#FormModal"
                                             onclick="showForm({{$device->id}})">
                                         <i class='fa fa-print'></i> Form Yazdır
                                     </button>
-                                    <button type="button" class="btn btn-danger bold uppercase delete_button"
-                                            data-toggle="modal" data-target="#DeleteModal"
-                                            onclick="deleteData({{$device->id}})">
+                                    <button type="button" class="btn btn-success bold uppercase delete_button"
+                                            data-toggle="modal" data-target="#StartService"
+                                            onclick="startService({{$device->id}})">
                                         <i class='fa fa-play'></i> SERVİSE BAŞLA
                                     </button>
                                 </td>
@@ -138,7 +138,32 @@
             </form>
         </div>
     </div>
-
+    <div id="StartService" class="modal fade text-danger" role="dialog">
+        <div class="modal-dialog ">
+            <!-- Modal content-->
+            <form action="" id="StartServiceForm" method="post">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title text-center">SERVİS İŞLEMİ BAŞLATMA ONAYI</h4>
+                    </div>
+                    <div class="modal-body">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <p class="text-center">Servis İşlemini Başlatıyorsunuz. Cihazın durumu değiştirilip <b>SIRA BEKLİYOR</b> durumuna getirilecek, onaylıyormusunuz?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">İptal</button>
+                            <button type="submit" name="" class="btn btn-danger" data-dismiss="modal"
+                                    onclick="startService()">Evet, Onaylıyorum
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div id="BarcodeModal" class="modal fade text-danger" role="dialog">
         <div class="modal-dialog ">
@@ -886,6 +911,19 @@
 
         function formSubmit() {
             $("#deleteForm").submit();
+        }
+
+
+
+        function deleteData(id) {
+            var id = id;
+            var url = '{{ route("service.store", ":id") }}';
+            url = url.replace(':id', id);
+            $("#StartServiceForm").attr('action', url);
+        }
+
+        function startService() {
+            $("#StartServiceForm").submit();
         }
 
         function showBarcode(id) {
