@@ -63,13 +63,11 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="component_name">Cihaz Seri Numarası</label>
-                                <input type="text" class="form-control" name="component_name" id="component_name">
+                                <label for="serial_number">Cihaz Seri Numarası</label>
+                                <input type="text" class="form-control" name="serial_number" id="serial_number">
                             </div>
                             <button type="submit" class="btn btn-success btn-block bold"><i class="fa fa-search"></i> Sorgula </button>
                         </div>
-
-
                     </div>
 
 
@@ -85,119 +83,21 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('vendor/adminlte/plugins/jQueryPrint/jQuery.print.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    @if(count($errors))
+        @foreach($errors->all() as $message)
+            <script>
+                toastr.error("{{$message}}", "", window.successOpts);
+            </script>
+        @endforeach
+    @endif
+
+    {{ $success = Session::get('success') }}
+    @if($success){
     <script>
-        function BarcodePrint() {
-            $("#barcode_print").print({
-                globalStyles: true,
-                mediaPrint: true,
-                stylesheet: "http://fonts.googleapis.com/css?family=Inconsolata",
-                iframe: true,
-                noPrintSelector: ".avoid-this",
-                manuallyCopyFormValues: true,
-                deferred: $.Deferred(),
-                timeout: 250,
-                title: null,
-                doctype: '<!doctype html>'
-            });
-        }
-
-        function FormPrint() {
-            $("#form_print").print({
-                globalStyles: false,
-                mediaPrint: false,
-                stylesheet: "http://fonts.googleapis.com/css?family=Inconsolata",
-                iframe: false,
-                noPrintSelector: ".avoid-this",
-                manuallyCopyFormValues: true,
-                deferred: $.Deferred(),
-                timeout: 250,
-                title: null,
-                doctype: '<!doctype html>'
-            });
-        }
+        swal("{{$success}}" ,  "" );
     </script>
-    <script>
-        $(function () {
-            $('#myTable').DataTable({
-                'paging': true,
-                'lengthChange': true,
-                'searching': true,
-                'ordering': false,
-                'info': true
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        function deleteData(id) {
-            var id = id;
-            var url = '{{ route("devices.destroy", ":id") }}';
-            url = url.replace(':id', id);
-            $("#deleteForm").attr('action', url);
-        }
-
-        function formSubmit() {
-            $("#deleteForm").submit();
-        }
-
-        function serviceStart(id) {
-            var id = id;
-            var url = '{{ route("service.start", ":id") }}';
-            url = url.replace(':id', id);
-            $("#StartServiceForm").attr('action', url);
-        }
-
-        function startService() {
-            $("#StartServiceForm").submit();
-        }
-
-        function showBarcode(id) {
-            var id = id;
-            if (id) {
-                $.ajax({
-                    type: "GET",
-                    url: "{{url('showBarcode')}}?id=" + id,
-                    success: function (res) {
-                        if (res) {
-                            $("#barcode").empty();
-                            $("#barcode").html('<img width="140" src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
-                            $("#barcode_repeat").html('<img width="140" src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
-                        } else {
-                            $("#barcode").empty();
-                        }
-                    }
-                });
-            }
-        }
+    @endif
 
 
-        function showForm(id) {
-            var id = id;
-            if (id) {
-                $.ajax({
-                    type: "GET",
-                    url: "{{url('showForm')}}?id=" + id,
-                    success: function (res) {
-                        if (res) {
-                            $("#customer_id").html(res['form']['customer_id']);
-                            $("#barcode2").html(res['form']['barcode']);
-                            $("#name_surname").html(res['customer']['name'] + ' ' + res['customer']['surname']);
-                            $("#gsm").html(res['customer']['gsm']);
-                            $("#address").html(res['customer']['address']);
-                            $("#brand").html(res['brand']['brand_name']);
-                            $("#model").html(res['model']['model_name']);
-                            $("#serial_number").html(res['form']['serial_number']);
-                            $("#pre_detection").html(res['form']['pre_detection']);
-                            $("#customer_request").html(res['form']['customer_request']);
-                            $("#delivered_person").html(res['form']['delivered_person']);
-                            $("#date").html(res['form']['created_at']);
-                        } else {
-                            $("#customer_id").empty();
-                        }
-                    }
-                });
-            }
-        }
-    </script>
-    @include('particle.alert')
 @endsection
