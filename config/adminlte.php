@@ -183,7 +183,7 @@ return [
                 ],
                 [
                     'text' => 'Tamamlanmış Cihazlar',
-                    'url'  => 'services/finish',
+                    'url'  => 'finish-services',
                 ],
             ],
         ],

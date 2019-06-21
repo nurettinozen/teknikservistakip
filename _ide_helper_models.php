@@ -19,10 +19,10 @@ namespace App{
  * @property int $brand_id
  * @property int $model_id
  * @property int $customer_id
- * @property string $repair_items
+ * @property string|null $repair_items
  * @property string $barcode
- * @property int $order_total
- * @property int $status
+ * @property int|null $order_total
+ * @property int $service_status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Service newModelQuery()
@@ -37,7 +37,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereModelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereOrderTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereRepairItems($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereServiceStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Service whereUpdatedAt($value)
  */
 	class Service extends \Eloquent {}

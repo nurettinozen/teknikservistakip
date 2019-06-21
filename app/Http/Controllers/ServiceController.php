@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Brand;
+use App\Customer;
+use App\Device;
+use App\Modelling;
+use App\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,22 +28,12 @@ class ServiceController extends Controller
             ->join('customers','services.customer_id','=','customers.id')
             ->join('brands','services.brand_id','=','brands.id')
             ->join('modellings','services.model_id','=','modellings.id')
+            ->where('service_status', '!=',255)
             ->orderBy('services.id','DESC')
             ->paginate(20);
 
         return view('services.index', compact(['services']));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -65,7 +64,17 @@ class ServiceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $service = Service::where('barcode', $id)->first();
+        $data = array();
+        $data['service'] = Service::where('barcode', $id)->first();
+        $data['device'] = Device::whereId($service['device_id'])->first();
+        $data['customer'] = Customer::whereId($service['customer_id'])->first();
+        $data['brand'] = Brand::whereId($service['brand_id'])->first();
+        $data['modellings'] = Modelling::whereId($service['model_id'])->first();
+
+
+
+        return view('services.edit', compact(['data']));
     }
 
     /**
@@ -89,6 +98,23 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Finish Service
+     */
+    public function finish()
+    {
+        $services = DB::table('services')
+            ->join('devices','services.device_id','=','devices.id')
+            ->join('customers','services.customer_id','=','customers.id')
+            ->join('brands','services.brand_id','=','brands.id')
+            ->join('modellings','services.model_id','=','modellings.id')
+            ->where('service_status', '=',255)
+            ->orderBy('services.id','DESC')
+            ->paginate(20);
+
+        return view('services.finish', compact(['services']));
     }
 
 }

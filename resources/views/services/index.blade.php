@@ -52,30 +52,30 @@
                         </thead>
                         <tbody id="post-list" name="post-list">
                         @foreach ($services as $key => $device)
+
                             <tr id="post{{$key}}" class="">
                                 <td>{{ $device->barcode }}</td>
                                 <td>{{ $device->name }} {{ $device->surname }}</td>
                                 <td>{{ $device->brand_name }}-{{ $device->model_name }}</td>
                                 <td>{{ $device->gsm }}</td>
                                 <td>
-
-                                    @if($device->status == 0)
+                                    @if($device->service_status == 0)
                                         <span class="badge badge-info bg-gray-gradient">Cihaz Teslim Alındı</span>
-                                    @elseif($device->status == 1)
+                                    @elseif($device->service_status == 1)
                                         <span class="badge badge-info bg-aqua-gradient">Sıra Bekliyor</span>
-                                    @elseif($device->status == 2)
+                                    @elseif($device->service_status == 2)
                                         <span class="badge badge-info bg-orange-gradient">Onarım İşleminde</span>
-                                    @elseif($device->status == 3)
+                                    @elseif($device->service_status == 3)
                                         <span class="badge badge-info bg-teal-gradient">Merkeze Gönderildi</span>
-                                    @elseif($device->status == 4)
+                                    @elseif($device->service_status == 4)
                                         <span class="badge badge-info bg-black-gradient">Parça Bekliyor</span>
-                                    @elseif($device->status == 5)
+                                    @elseif($device->service_status == 5)
                                         <span class="badge badge-info bg-fuchsia-gradient">Onay Bekliyor</span>
-                                    @elseif($device->status == 6)
+                                    @elseif($device->service_status == 6)
                                         <span class="badge badge-info bg-blue-gradient">Cihazınız Hazır</span>
-                                    @elseif($device->status == 7)
+                                    @elseif($device->service_status == 7)
                                         <span class="badge badge-info bg-light-blue-gradient">Kargolandı</span>
-                                    @elseif($device->status == 255)
+                                    @elseif($device->service_status == 255)
                                         <span class="badge badge-info bg-green-gradient">Teslim edildi</span>
                                     @endif
 
@@ -92,13 +92,13 @@
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><a href="{{ route('services.edit', $device->barcode) }}">Parça Detayları
+                                            <li><a class="btn btn-secondary" href="{{ route('services.edit', $device->barcode) }}">Parça Detayları
                                                     Ekle</a></li>
                                             <li class="divider"></li>
                                             <li>
                                                 <form class="btn-group"
                                                       style="width: 100%"
-                                                      action="{{ route('service.start', ['id' => $device->barcode]) }}"
+                                                      action="{{ route('send.center', ['id' => $device->barcode]) }}"
                                                       method="post">
                                                     {{ method_field('PATCH') }}
                                                     {{ csrf_field() }}
@@ -110,7 +110,7 @@
                                             <li>
                                                 <form class="btn-group"
                                                       style="width: 100%"
-                                                      action="{{ route('service.start', ['id' => $device->barcode]) }}"
+                                                      action="{{ route('repair.start', ['id' => $device->barcode]) }}"
                                                       method="post">
                                                     {{ method_field('PATCH') }}
                                                     {{ csrf_field() }}
@@ -122,7 +122,7 @@
                                             <li>
                                                 <form class="btn-group"
                                                       style="width: 100%"
-                                                      action="{{ route('service.start', ['id' => $device->barcode]) }}"
+                                                      action="{{ route('components.waiting', ['id' => $device->barcode]) }}"
                                                       method="post">
                                                     {{ method_field('PATCH') }}
                                                     {{ csrf_field() }}
@@ -134,7 +134,7 @@
                                             <li>
                                                 <form class="btn-group"
                                                       style="width: 100%"
-                                                      action="{{ route('service.start', ['id' => $device->barcode]) }}"
+                                                      action="{{ route('confirm.waiting', ['id' => $device->barcode]) }}"
                                                       method="post">
                                                     {{ method_field('PATCH') }}
                                                     {{ csrf_field() }}
@@ -146,7 +146,7 @@
                                             <li>
                                                 <form class="btn-group"
                                                       style="width: 100%"
-                                                      action="{{ route('service.start', ['id' => $device->barcode]) }}"
+                                                      action="{{ route('device.ready', ['id' => $device->barcode]) }}"
                                                       method="post">
                                                     {{ method_field('PATCH') }}
                                                     {{ csrf_field() }}
@@ -158,7 +158,7 @@
                                             <li>
                                                 <form class="btn-group"
                                                       style="width: 100%"
-                                                      action="{{ route('service.start', ['id' => $device->barcode]) }}"
+                                                      action="{{ route('device.shipping', ['id' => $device->barcode]) }}"
                                                       method="post">
                                                     {{ method_field('PATCH') }}
                                                     {{ csrf_field() }}
@@ -170,7 +170,7 @@
                                             <li>
                                                 <form class="btn-group"
                                                       style="width: 100%"
-                                                      action="{{ route('service.start', ['id' => $device->barcode]) }}"
+                                                      action="{{ route('device.delivered', ['id' => $device->barcode]) }}"
                                                       method="post">
                                                     {{ method_field('PATCH') }}
                                                     {{ csrf_field() }}
@@ -281,10 +281,14 @@
                             <style>
                                 #barcode {
                                     float: left;
+                                    margin-left: 7px;
+                                    margin-top:7px;
                                 }
 
                                 #barcode_repeat {
-                                    float: right;
+                                    float: left;
+                                    margin-left:7px;
+                                    margin-top:8px;
                                 }
 
                                 #barcode_print {
@@ -295,7 +299,7 @@
                             </style>
                             <div id="barcode_print">
                                 <div id="barcode"></div>
-                                <div id="barcode_repeat"></div>
+                                <!--div id="barcode_repeat"></div-->
                             </div>
                         </div>
                     </div>
@@ -1047,8 +1051,8 @@
                     success: function (res) {
                         if (res) {
                             $("#barcode").empty();
-                            $("#barcode").html('<img src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
-                            $("#barcode_repeat").html('<img src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
+                            $("#barcode").html('<img width="140" src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
+                            $("#barcode_repeat").html('<img width="140" src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
                         } else {
                             $("#barcode").empty();
                         }

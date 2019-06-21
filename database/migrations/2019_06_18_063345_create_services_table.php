@@ -22,7 +22,7 @@ class CreateServicesTable extends Migration
             $table->longText('repair_items')->nullable();
             $table->text('barcode');
             $table->bigInteger('order_total')->nullable();
-            $table->integer('status');
+            $table->integer('service_status');
             $table->timestamps();
         });
     }

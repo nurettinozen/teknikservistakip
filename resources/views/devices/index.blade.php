@@ -186,12 +186,31 @@
                     <div class="modal-body">
                         {{ csrf_field() }}
                         {{ method_field('GET') }}
-                        <p class="text-center">
-                        <div id="barcode_print">
-                            <div id="barcode" class="text-center"></div>
-                            <div id="barcode_repeat" class="text-center"></div>
+                        <div class="">
+                            <style>
+                                #barcode {
+                                    float: left;
+                                    margin-left: 7px;
+                                    margin-top:7px;
+                                }
+
+                                #barcode_repeat {
+                                    float: left;
+                                    margin-left:7px;
+                                    margin-top:8px;
+                                }
+
+                                #barcode_print {
+                                    min-height: 90px;
+                                    max-width: 320px;
+                                }
+
+                            </style>
+                            <div id="barcode_print">
+                                <div id="barcode"></div>
+                                <!--div id="barcode_repeat"></div-->
+                            </div>
                         </div>
-                        </p>
                     </div>
                     <div class="modal-footer">
                         <div class="text-center">
@@ -860,10 +879,10 @@
     <script>
         function BarcodePrint() {
             $("#barcode_print").print({
-                globalStyles: false,
-                mediaPrint: false,
+                globalStyles: true,
+                mediaPrint: true,
                 stylesheet: "http://fonts.googleapis.com/css?family=Inconsolata",
-                iframe: false,
+                iframe: true,
                 noPrintSelector: ".avoid-this",
                 manuallyCopyFormValues: true,
                 deferred: $.Deferred(),
@@ -931,8 +950,8 @@
                     success: function (res) {
                         if (res) {
                             $("#barcode").empty();
-                            $("#barcode").html('<img src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
-                            $("#barcode_repeat").html('<img src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
+                            $("#barcode").html('<img width="140" src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
+                            $("#barcode_repeat").html('<img width="140" src="http://barcodes4.me/barcode/i2of5/' + res['barcode'] + '.png?IsTextDrawn=1&TextSize=12" />');
                         } else {
                             $("#barcode").empty();
                         }

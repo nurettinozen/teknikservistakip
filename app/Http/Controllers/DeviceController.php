@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Redirect;
 
 class DeviceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -145,7 +149,7 @@ class DeviceController extends Controller
                 'model_id' => $device->model_id,
                 'customer_id' => $device->customer_id,
                 'barcode' => $device->barcode,
-                'status' => 1,
+                'service_status' => 1,
             ]);
 
             Device::where('barcode', $request->barcode)->update(['status' => 1]);

@@ -19,20 +19,20 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Auth Routers
 Auth::routes();
 
-// Customer Routers
+// Customer Routes
 Route::resource('customers', 'CustomerController');
 
-// Brand Routers
+// Brand Routes
 Route::resource('brands', 'BrandController');
 
-// Modelling Routers
+// Modelling Routes
 Route::resource('modellings', 'ModellingController');
 
-// Component Routers
+// Component Routes
 Route::resource('components', 'ComponentController');
 Route::get('getModels', 'ComponentController@getModels');
 
-// Device Routers
+// Device Routes
 Route::resource('devices', 'DeviceController');
 Route::get('showBarcode', 'DeviceController@showBarcode');
 Route::get('showForm', 'DeviceController@showForm');
@@ -40,4 +40,13 @@ Route::patch('startService/{barcode}','DeviceController@start')->name('service.s
 
 // Service Routers
 Route::resource('services', 'ServiceController');
+Route::get('finish-services', 'ServiceController@finish');
 
+// Status Changer Controller Routes
+Route::patch('sendCenter/{barcode}', 'StatusController@send_center')->name('send.center');
+Route::patch('repairStart/{barcode}', 'StatusController@repair_start')->name('repair.start');
+Route::patch('componentsWaiting/{barcode}', 'StatusController@components_waiting')->name('components.waiting');
+Route::patch('confirmWaiting/{barcode}', 'StatusController@confirm_waiting')->name('confirm.waiting');
+Route::patch('shipping/{barcode}', 'StatusController@shipping')->name('device.shipping');
+Route::patch('delivered/{barcode}', 'StatusController@delivered')->name('device.delivered');
+Route::patch('deviceReady/{barcode}', 'StatusController@device_ready')->name('device.ready');
