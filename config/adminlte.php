@@ -110,14 +110,14 @@ return [
     'menu' => [
         'Genel İşlemler',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
             'text'        => 'Genel İstatistikler',
             'url'         => 'home',
             'icon'        => 'dashboard',
+        ],
+        [
+            'text'        => 'Sorgulama Servisi',
+            'url'         => 'search',
+            'icon'        => 'search',
         ],
         'Müşteri İşlemleri',
 

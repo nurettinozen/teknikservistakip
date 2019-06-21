@@ -50,3 +50,9 @@ Route::patch('confirmWaiting/{barcode}', 'StatusController@confirm_waiting')->na
 Route::patch('shipping/{barcode}', 'StatusController@shipping')->name('device.shipping');
 Route::patch('delivered/{barcode}', 'StatusController@delivered')->name('device.delivered');
 Route::patch('deviceReady/{barcode}', 'StatusController@device_ready')->name('device.ready');
+
+// Search Routes
+Route::get('search', 'SearchController@index');
+
+Route::post('search/barcode', 'SearchController@barcode')->name('search.barcode');
+Route::post('search/serial', 'SearchController@serial')->name('search.serial');
